@@ -13,7 +13,8 @@ class TicketsController < ApplicationController
   def create
     @ticket = Ticket.new(ticket_params)
     if @ticket.save!
-      symbol, message, path = :notice, "Ticket has been created", tickets_index_path
+      symbol, message, path = :notice, "Ticket has been created", tickets_path
+      TicketsMailer.new_ticket(@ticket).deliver_now
     else
       symbol, message, path = :error, "Something went wrong", tickets_new_path
     end
